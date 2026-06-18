@@ -1,0 +1,315 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Cumpleaños Papá</title>
+    <style>
+        /* --- FOTOS DE FONDO (Efecto marca de agua) --- */
+        .background-photos {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Organiza las 4 fotos en 2x2 */
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+            pointer-events: none; /* Hace que no interfieran al hacer clic en el sobre */
+            z-index: 0; /* Las manda al fondo de todo */
+        }
+
+        .bg-foto {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            /* AQUÍ CONTROLAS LA INTENSIDAD: 0.15 significa 15% de visibilidad */
+            opacity: 0.15;
+            /* Filtro opcional por si quieres que se mezclen más con el fondo oscuro */
+            filter: grayscale(30%) contrast(90%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #2c1a11, #4a3225);
+            font-family: 'Georgia', serif;
+            overflow-x: hidden;
+            padding: 20px;
+            perspective: 1000px; /* Necesario para el efecto 3D del sobre */
+        }
+
+        /* Contenedor principal */
+        .wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Espacio óptimo para los elementos grandes */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 380px; /* Más estabilidad de altura para el sobre grande */
+        }
+
+        /* --- EL SOBRE AGRANDADO --- */
+        .envelope {
+            position: relative;
+            width: 520px; /* Aumentado de 420px a 520px */
+            height: 340px; /* Aumentado de 280px a 340px */
+            background-color: #f3ede0; /* Color base crema */
+            border-radius: 6px;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            z-index: 2;
+            /* LÍNEAS DORADAS SÓLIDAS */
+            border: 8px solid #d4af37;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.55);
+        }
+
+        /* Solapas usando formas geométricas de CSS */
+        .flap {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        /* Solapa Izquierda */
+        .left-flap {
+            background-color: #f0e8d9;
+            clip-path: polygon(0 0, 51% 50%, 0 100%);
+            box-shadow: inset -5px 0 10px rgba(0,0,0,0.02);
+            z-index: 2;
+        }
+
+        /* Solapa Derecha */
+        .right-flap {
+            background-color: #f0e8d9;
+            clip-path: polygon(100% 0, 100% 100%, 49% 50%);
+            box-shadow: inset 5px 0 10px rgba(0,0,0,0.02);
+            z-index: 2;
+        }
+
+        /* Solapa Inferior */
+        .bottom-flap {
+            background-color: #eae1cf;
+            clip-path: polygon(0 100%, 100% 100%, 50% 49%);
+            box-shadow: inset 0 8px 10px rgba(0,0,0,0.03);
+            z-index: 3;
+        }
+
+        /* Solapa Superior (La que se abre) */
+        .top-flap {
+            background-color: #f5eedf;
+            clip-path: polygon(0 0, 100% 0, 50% 52%);
+            transform-origin: top;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: drop-shadow(0 5px 6px rgba(0,0,0,0.08));
+            z-index: 4;
+        }
+
+        /* Título decorativo arriba del sobre */
+        .envelope-title {
+            position: absolute;
+            top: -65px; /* Subido un poco para que no choque con el sobre grande */
+            width: 100%;
+            text-align: center;
+            color: #f4ecd8;
+            font-size: 1.7rem; /* Ligeramente más grande */
+            letter-spacing: 1px;
+            transition: opacity 0.4s ease;
+            z-index: 5;
+        }
+
+        /* --- EL BOTÓN: SELLO DE CERA VINOTINTO --- */
+        .seal-btn {
+            position: absolute;
+            top: 51%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(#590913, #40050c);
+            color: #d4af37;
+            width: 100px; /* Ajustado proporcionalmente al sobre */
+            height: 100px;
+            cursor: pointer;
+            border-radius: 48% 52% 45% 55% / 52% 45% 55% 48%;
+            border: 3px solid #3b0707;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.45), inset -4px -4px 8px rgba(0,0,0,0.3), inset 4px 4px 8px rgba(255,255,255,0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            transition: transform 0.3s, opacity 0.4s;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+            .seal-btn:hover {
+                transform: translate(-50%, -50%) scale(1.08);
+            }
+
+        .seal-initials {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            line-height: 1.1;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .seal-date {
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-top: 4px;
+            opacity: 0.9;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+        }
+
+        /* --- LA CARTA INTERIOR (Grande) --- */
+        .letter-card {
+            width: 100%;
+            max-width: 550px;
+            background: #fdfaf2;
+            border-radius: 12px;
+            border: 6px double #d4af37;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            padding: 45px 35px;
+            text-align: center;
+            display: none;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+        }
+
+        .letter-title {
+            color: #590913;
+            margin-bottom: 25px;
+            font-size: 2.3rem;
+        }
+
+        .img-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .foto {
+            width: 46%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 4px solid #e0d8c3;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.18);
+        }
+
+        .letter-text {
+            color: #332211;
+            font-size: 1.2rem;
+            line-height: 1.7;
+            text-align: justify;
+            margin-bottom: 30px;
+        }
+
+        .signature {
+            color: #590913;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        /* --- ANIMACIONES AL CAMBIAR ESTADOS --- */
+        .wrapper.opened .top-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .wrapper.opened .seal-btn {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-photos">
+        <img src="fondo1.jpeg" alt="Fondo 1" class="bg-foto">
+        <img src="fondo2.jpeg" alt="Fondo 2" class="bg-foto">
+        <img src="fondo3.jpeg" alt="Fondo 3" class="bg-foto">
+        <img src="fondo4.jpeg" alt="Fondo 4" class="bg-foto">
+    </div>
+
+    <div class="wrapper" id="main-wrapper">
+
+        <h2 class="envelope-title" id="env-title">Feliz Cumpleaños PAPÁ 🫂</h2>
+
+        <div class="envelope" id="physical-envelope">
+            <div class="flap top-flap"></div>
+            <div class="flap left-flap"></div>
+            <div class="flap right-flap"></div>
+            <div class="flap bottom-flap"></div>
+        </div>
+
+        <button class="seal-btn" id="seal" onclick="openEnvelope()">
+            <div class="seal-initials">S. Z.</div>
+            <div class="seal-date">17-06-1974</div>
+        </button>
+
+        <div class="letter-card" id="secret-letter">
+            <h1 class="letter-title">¡Feliz Cumpleaños, Papá! 🎉</h1>
+
+            <div class="img-container">
+                <img src="foto_papa_1.jpeg" alt="Foto 1 con Papá" class="foto">
+                <img src="foto_papa_2.jpeg" alt="Foto 2 con Papá" class="foto">
+            </div>
+
+            <div class="letter-text">
+                Quiero darte las Gracias por todo el apoyo que me has dado, muchas veces dando tu tiempo por cosas de nosotros, por la paciencia que has tenido con nosotros que no ha sido poca, eres muy fuerte, con una mentalidad buena, una excelente persona, que ha tenido sus equivocaciones a lo largo de la vida, pero has seguido adelante y aprendiendo de la mayoría de errores, no eres perfecto porque no hay personas así, por eso valoro mucho lo que haces por nosotros, eres un buen Padre.
+            </div>
+
+            <div class="signature">Te Quiero pa 🫶🏽🫂✨</div>
+        </div>
+
+    </div>
+
+    <script>
+        function openEnvelope() {
+            const wrapper = document.getElementById('main-wrapper');
+            const envelope = document.getElementById('physical-envelope');
+            const envTitle = document.getElementById('env-title');
+            const letter = document.getElementById('secret-letter');
+
+            // 1. Inicia la animación abriendo la solapa superior
+            wrapper.classList.add('opened');
+
+            // 2. Esperamos que termine de abrirse la solapa para hacer la transición fluida a la carta
+            setTimeout(() => {
+                envelope.style.opacity = '0';
+                envTitle.style.opacity = '0';
+
+                setTimeout(() => {
+                    envelope.style.display = 'none';
+                    envTitle.style.display = 'none';
+
+                    // Mostramos la carta suavemente
+                    letter.style.display = 'block';
+                    setTimeout(() => {
+                        letter.style.opacity = '1';
+                        letter.style.transform = 'scale(1)';
+                    }, 50);
+                }, 400);
+
+            }, 600);
+        }
+    </script>
+</body>
+</html>
