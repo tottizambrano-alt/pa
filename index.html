@@ -54,25 +54,25 @@
         .wrapper {
             position: relative;
             width: 100%;
-            max-width: 600px; /* Espacio óptimo para los elementos grandes */
+            max-width: 450px;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 380px; /* Más estabilidad de altura para el sobre grande */
+            min-height: 320px; /* Le da estabilidad a la altura mientras cambia */
         }
 
-        /* --- EL SOBRE AGRANDADO --- */
+        /* --- EL SOBRE (Con bordes dorados bien visibles antes de abrir) --- */
         .envelope {
             position: relative;
-            width: 520px; /* Aumentado de 420px a 520px */
-            height: 340px; /* Aumentado de 280px a 340px */
+            width: 420px;
+            height: 280px;
             background-color: #f3ede0; /* Color base crema */
-            border-radius: 6px;
+            border-radius: 4px;
             transition: opacity 0.6s ease, transform 0.6s ease;
             z-index: 2;
-            /* LÍNEAS DORADAS SÓLIDAS */
+            /* AQUÍ ESTÁN LAS LÍNEAS DORADAS SOLIDAS: */
             border: 8px solid #d4af37;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.55);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         }
 
         /* Solapas usando formas geométricas de CSS */
@@ -103,7 +103,7 @@
         /* Solapa Inferior */
         .bottom-flap {
             background-color: #eae1cf;
-            clip-path: polygon(0 100%, 100% 100%, 50% 49%);
+            clip-path: polygon(0 100%, 100% 100%, 50% 48%);
             box-shadow: inset 0 8px 10px rgba(0,0,0,0.03);
             z-index: 3;
         }
@@ -111,21 +111,21 @@
         /* Solapa Superior (La que se abre) */
         .top-flap {
             background-color: #f5eedf;
-            clip-path: polygon(0 0, 100% 0, 50% 52%);
+            clip-path: polygon(0 0, 100% 0, 50% 53%);
             transform-origin: top;
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            filter: drop-shadow(0 5px 6px rgba(0,0,0,0.08));
-            z-index: 4;
+            filter: drop-shadow(0 4px 5px rgba(0,0,0,0.08));
+            z-index: 4; /* Inicia arriba de las demás solapas */
         }
 
         /* Título decorativo arriba del sobre */
         .envelope-title {
             position: absolute;
-            top: -65px; /* Subido un poco para que no choque con el sobre grande */
+            top: -50px;
             width: 100%;
             text-align: center;
             color: #f4ecd8;
-            font-size: 1.7rem; /* Ligeramente más grande */
+            font-size: 1.5rem;
             letter-spacing: 1px;
             transition: opacity 0.4s ease;
             z-index: 5;
@@ -137,37 +137,42 @@
             top: 51%;
             left: 50%;
             transform: translate(-50%, -50%);
+            /* Color Vinotinto Sólido exacto */
             background: radial-gradient(#590913, #40050c);
             color: #d4af37;
-            width: 100px; /* Ajustado proporcionalmente al sobre */
-            height: 100px;
+            width: 90px;
+            height: 90px;
             cursor: pointer;
+            /* Forma irregular derretida usando border-radius mixto */
             border-radius: 48% 52% 45% 55% / 52% 45% 55% 48%;
             border: 3px solid #3b0707;
-            box-shadow: 0 6px 14px rgba(0,0,0,0.45), inset -4px -4px 8px rgba(0,0,0,0.3), inset 4px 4px 8px rgba(255,255,255,0.2);
+            /* Efecto tridimensional de cera real */
+            box-shadow: 0 6px 12px rgba(0,0,0,0.45), inset -4px -4px 8px rgba(0,0,0,0.3), inset 4px 4px 8px rgba(255,255,255,0.2);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 10;
+            z-index: 10; /* Siempre por encima del sobre cerrado */
             transition: transform 0.3s, opacity 0.4s;
             font-family: 'Times New Roman', Times, serif;
         }
 
-            .seal-btn:hover {
-                transform: translate(-50%, -50%) scale(1.08);
-            }
+        .seal-btn:hover {
+            transform: translate(-50%, -50%) scale(1.08);
+        }
 
+        /* Estilo para las iniciales S. Z. */
         .seal-initials {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: bold;
             letter-spacing: 2px;
             line-height: 1.1;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
 
+        /* Estilo para la fecha de abajo */
         .seal-date {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: bold;
             margin-top: 4px;
             opacity: 0.9;
@@ -175,16 +180,17 @@
             text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
         }
 
-        /* --- LA CARTA INTERIOR (Grande) --- */
+        /* --- LA CARTA INTERIOR --- */
         .letter-card {
             width: 100%;
-            max-width: 550px;
-            background: #fdfaf2;
-            border-radius: 12px;
-            border: 6px double #d4af37;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-            padding: 45px 35px;
+            max-width: 430px;
+            background: #fdfaf2; /* Papel pergamino claro */
+            border-radius: 8px;
+            border: 5px double #d4af37; /* Línea doble decorativa */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            padding: 35px 25px;
             text-align: center;
+            /* Preparación para la animación limpia */
             display: none;
             opacity: 0;
             transform: scale(0.9);
@@ -194,44 +200,45 @@
 
         .letter-title {
             color: #590913;
-            margin-bottom: 25px;
-            font-size: 2.3rem;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
         }
 
+        /* Estilos añadidos para que tus imágenes internas se organicen bien */
         .img-container {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             justify-content: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .foto {
-            width: 46%;
-            height: 200px;
+            width: 45%;
+            height: 140px;
             object-fit: cover;
-            border-radius: 8px;
-            border: 4px solid #e0d8c3;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.18);
+            border-radius: 6px;
+            border: 3px solid #e0d8c3;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .letter-text {
             color: #332211;
-            font-size: 1.2rem;
-            line-height: 1.7;
+            font-size: 1.05rem;
+            line-height: 1.6;
             text-align: justify;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .signature {
             color: #590913;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: bold;
         }
 
         /* --- ANIMACIONES AL CAMBIAR ESTADOS --- */
         .wrapper.opened .top-flap {
-            transform: rotateX(180deg);
-            z-index: 1;
+            transform: rotateX(180deg); /* Levanta la solapa */
+            z-index: 1; /* Pasa detrás de la carta */
         }
 
         .wrapper.opened .seal-btn {
@@ -293,6 +300,7 @@
 
             // 2. Esperamos que termine de abrirse la solapa para hacer la transición fluida a la carta
             setTimeout(() => {
+                // Desvanecemos el sobre exterior sutilmente antes de quitarlo
                 envelope.style.opacity = '0';
                 envTitle.style.opacity = '0';
 
@@ -308,7 +316,7 @@
                     }, 50);
                 }, 400);
 
-            }, 600);
+            }, 600); // 600ms dura la animación física de la solapa superior
         }
     </script>
 </body>
